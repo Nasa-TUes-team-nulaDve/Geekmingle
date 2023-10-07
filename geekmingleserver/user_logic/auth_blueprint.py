@@ -57,16 +57,20 @@ def register():
     username = data.get('username')
     password = data.get('password')
     email = data.get('email')
+
+    if(username == None or password == None or email == None):
+        return jsonify(message='Invalid username or password'), 401
+
     # Hash the password
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-
+    print("register")
+    print(username, hashed_password, email)
     # Insert user data into the database
     cur.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, hashed_password.decode("utf-8"), email))
     conn.commit()
-    print("register")
-    print(username, hashed_password, email)
 
-    return jsonify(message='User registered successfully'), 201
+    token = jwt.encode({'username': username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, SECRET_KEY, algorithm='HS256')
+    return jsonify(token=token), 200
 
 @auth_blueprint.route('/login', methods=['POST'])
 def login():
@@ -90,8 +94,8 @@ def login():
 
 
 
-@auth_blueprint.route('/protected', methods=['GET'])
+@auth_blueprint.route('/me', methods=['GET'])
 @token_required
-def protected(current_user):
-    return jsonify(logged_in_as=current_user), 200
+def protected_route(current_user):
+    return jsonify(current_user), 200
 
