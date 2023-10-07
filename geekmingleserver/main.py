@@ -2,13 +2,12 @@ from flask import *
 import psycopg2
 import json
 from flask import jsonify
-
 from geekmingleserver.user_logic.auth_blueprint import auth_blueprint
-
 from configparser import ConfigParser
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
 config = ConfigParser()
