@@ -1,23 +1,15 @@
 import React, { useState } from 'react';
 
+import { useUser } from '../Contexts/userContext';
+
 function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(false); // Track user login status
-
-  const handleLogin = () => {
-    // Implement your login logic here
-    setLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    // Implement your logout logic here
-    setLoggedIn(false);
-  };
+  const { logout, user } = useUser();
 
   return (
     <div className="navbar">
       <div className="navbar-left">
         <button>All Projects</button>
-        {loggedIn && (
+        {user.username !== '' && (
           <>
             <button>Your Project</button>
             <button>Create a Project</button>
@@ -25,10 +17,10 @@ function Navbar() {
         )}
       </div>
       <div className="navbar-right">
-        {loggedIn ? (
-          <button onClick={handleLogout}>Logout</button>
+        {user.username !== '' ? (
+          <button onClick={logout}>Logout</button>
         ) : (
-          <button onClick={handleLogin}>Login</button>
+          <button onClick={logout}>Login</button>
         )}
         <img
           src="your-profile-image.jpg"

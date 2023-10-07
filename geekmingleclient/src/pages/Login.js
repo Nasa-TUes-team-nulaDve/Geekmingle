@@ -3,13 +3,21 @@ import './Login.css'; // Import the CSS file
 import { Link } from 'react-router-dom'; // Import Link from React Router
 
 const Login = () => {
+
     useEffect(() => {
-        console.log(process.env);
+        const token = localStorage.getItem('jwtToken');
+
+        if (!token) {
+            // Redirect to the login page if no token is found
+            window.location.href = '/';
+        }
     }, []);
+
     const [formData, setFormData] = useState({
         username: '',
         password: '',
     });
+
     const [showPassword, setShowPassword] = useState(false);
     const [loginError, setLoginError] = useState('');
 
@@ -45,7 +53,7 @@ const Login = () => {
                 const jwtToken = data.token;
                 // Store tokens securely (e.g., in localStorage)
                 localStorage.setItem('jwtToken', jwtToken);
-                console.log('Login Successful', data);
+                window.location.href = '/';
             } else {
                 setLoginError('Invalid username or password');
             }

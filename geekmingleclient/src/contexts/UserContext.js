@@ -6,7 +6,6 @@ export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
-    isLoggedIn: false,
     username: '',
     email: '',
     ownProjectId: null,
@@ -15,13 +14,16 @@ export const UserProvider = ({ children }) => {
 
   const logout = () => {
     // Clear user data when logging out
+    localStorage.removeItem('jwtToken');
     setUser({
-      isLoggedIn: false,
       username: '',
       email: '',
       ownProjectId: null,
       associatedProjects: [],
     });
+
+    // Redirect to the login page
+    window.location.href = '/';
   };
 
   return (

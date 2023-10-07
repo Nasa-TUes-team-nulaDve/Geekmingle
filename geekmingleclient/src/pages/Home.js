@@ -1,7 +1,15 @@
 import React, { useEffect } from 'react';
 
-function App() {
+import { useUser } from '../Contexts/userContext';
+import { jwtRequest } from '../utils/JWTRequest';
+function Home() {
+
+  const { setUser, logout } = useUser();
   useEffect(() => {
+    const getUserData = async () => {
+      const userData = await jwtRequest('GET', '/auth/me', null, logout);
+      setUser(userData);
+    }
     // Check if the user has a token in local storage
     const token = localStorage.getItem('jwtToken');
 
@@ -9,7 +17,8 @@ function App() {
       // Redirect to the login page if no token is found
       window.location.href = '/login';
     }
-  }, []);
+    getUserData();
+  }, [setUser, logout]);
 
   return (
     <div className="App">
@@ -22,4 +31,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

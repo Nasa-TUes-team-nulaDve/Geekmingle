@@ -1,8 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Register.css'; // Import the CSS file
 import { Link } from 'react-router-dom'; // Import Link from React Router if you're using it for navigation
 
 const Register = () => {
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+
+    if (!token) {
+      // Redirect to the login page if no token is found
+      window.location.href = '/';
+    }
+  }, []);
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -85,7 +95,7 @@ const Register = () => {
 
         // Store tokens securely (e.g., in localStorage)
         localStorage.setItem('jwtToken', jwtToken);
-        console.log('Registration Successful', data);
+        window.location.href = '/';
       } else {
         // Handle registration failure
         console.error('Registration Failed');
