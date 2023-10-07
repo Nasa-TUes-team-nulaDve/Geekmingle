@@ -17,7 +17,6 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem('jwtToken');
     setUser({
       username: '',
-      email: '',
       ownProjectId: null,
       associatedProjects: [],
     });

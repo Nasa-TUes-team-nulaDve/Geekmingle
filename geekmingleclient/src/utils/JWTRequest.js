@@ -20,15 +20,15 @@ export const jwtRequest = async (endpoint, method = 'GET', data = null, logOutFu
     };
 
     try {
-        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/${endpoint}`, requestOptions);
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}${endpoint}`, requestOptions);
 
         if (!response.ok) {
-            logOutFunction();
+            // logOutFunction();
         }
 
         return await response.json();
     } catch (error) {
-        logOutFunction();
+        // logOutFunction();
         throw error;
     }
 };

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useEffect } from "react";
 
-import { useUser } from '../Contexts/userContext';
-
-function Navbar() {
-  const { logout, user } = useUser();
+function Navbar({ user, logout }) {
+  useEffect(() => {
+    console.log(user);
+  }
+    , [user]);
 
   return (
     <div className="navbar">
@@ -18,9 +19,12 @@ function Navbar() {
       </div>
       <div className="navbar-right">
         {user.username !== '' ? (
-          <button onClick={logout}>Logout</button>
+          <>
+            <button onClick={logout}>Logout</button>
+            <h1>Logged in as {user.username}</h1>
+          </>
         ) : (
-          <button onClick={logout}>Login</button>
+          <button onClick={() => { window.location.href = '/login' }}>Login</button>
         )}
         <img
           src="your-profile-image.jpg"

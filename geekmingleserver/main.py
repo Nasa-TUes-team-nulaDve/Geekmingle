@@ -2,8 +2,8 @@ from flask import *
 import psycopg2
 import json
 from flask import jsonify
-from geekmingleserver.user_logic.auth_blueprint import auth_blueprint
-from geekmingleserver.project_logic.project_blueprint import project_blueprint
+from user_logic.auth_blueprint import auth_blueprint
+from project_logic.project_blueprint import project_blueprint
 from configparser import ConfigParser
 from flask_cors import CORS
 

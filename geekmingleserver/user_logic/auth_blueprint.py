@@ -9,8 +9,6 @@ import json
 
 auth_blueprint = Blueprint('auth', __name__)
 
-
-
 config = ConfigParser()
 config.read('config.ini')
 
@@ -29,7 +27,6 @@ conn = psycopg2.connect(
     password=db_password
 )
 cur = conn.cursor()
-
 
 
 # JWT token required decorator
@@ -51,6 +48,7 @@ def token_required(f):
 
     return decorated
 
+
 @auth_blueprint.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -58,7 +56,7 @@ def register():
     password = data.get('password')
     email = data.get('email')
 
-    if(username == None or password == None or email == None):
+    if username is None or password is None or email is None:
         return jsonify(message='Invalid username or password'), 401
 
     # Hash the password
@@ -66,11 +64,14 @@ def register():
     print("register")
     print(username, hashed_password, email)
     # Insert user data into the database
-    cur.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, hashed_password.decode("utf-8"), email))
+    cur.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)",
+                (username, hashed_password.decode("utf-8"), email))
     conn.commit()
 
-    token = jwt.encode({'username': username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, SECRET_KEY, algorithm='HS256')
+    token = jwt.encode({'username': username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)},
+                       SECRET_KEY, algorithm='HS256')
     return jsonify(token=token), 200
+
 
 @auth_blueprint.route('/login', methods=['POST'])
 def login():
@@ -86,19 +87,17 @@ def login():
 
     if user and bcrypt.checkpw(password, bytes(user[2])):
         # Create JWT token
-        token = jwt.encode({'username': username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, SECRET_KEY, algorithm='HS256')
+        token = jwt.encode({'username': username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)},
+                           SECRET_KEY, algorithm='HS256')
         return jsonify(token=token), 200  # Removed .decode('utf-8')
     else:
         return jsonify(message='Invalid username or password'), 401
 
 
-
-
 @auth_blueprint.route('/me', methods=['GET'])
 @token_required
 def protected_route(current_user):
-
-    # Retrieve user data from the database and return it exept password
+    # Retrieve user data from the database and return it except password
     cur.execute("SELECT * FROM users WHERE username = %s", (current_user,))
     user = cur.fetchone()
     print("users")
@@ -110,4 +109,3 @@ def protected_route(current_user):
     }
 
     return current_user, 200
-

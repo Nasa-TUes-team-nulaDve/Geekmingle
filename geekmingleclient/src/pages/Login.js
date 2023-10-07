@@ -7,7 +7,7 @@ const Login = () => {
     useEffect(() => {
         const token = localStorage.getItem('jwtToken');
 
-        if (!token) {
+        if (token !== null) {
             // Redirect to the login page if no token is found
             window.location.href = '/';
         }

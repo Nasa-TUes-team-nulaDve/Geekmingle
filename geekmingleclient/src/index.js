@@ -4,7 +4,7 @@ import './index.css';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { UserProvider } from './Contexts/userContext';
+import { UserProvider } from './Contexts/UserContext';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
