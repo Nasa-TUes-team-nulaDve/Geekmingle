@@ -3,12 +3,14 @@ import psycopg2
 import json
 from flask import jsonify
 from geekmingleserver.user_logic.auth_blueprint import auth_blueprint
+from geekmingleserver.project_logic.project_blueprint import project_blueprint
 from configparser import ConfigParser
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 app.register_blueprint(auth_blueprint, url_prefix='/auth')
+app.register_blueprint(project_blueprint, url_prefix='/project')
 
 config = ConfigParser()
 config.read('config.ini')

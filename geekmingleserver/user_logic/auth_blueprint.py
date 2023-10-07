@@ -97,5 +97,17 @@ def login():
 @auth_blueprint.route('/me', methods=['GET'])
 @token_required
 def protected_route(current_user):
-    return jsonify(current_user), 200
+
+    # Retrieve user data from the database and return it exept password
+    cur.execute("SELECT * FROM users WHERE username = %s", (current_user,))
+    user = cur.fetchone()
+    print("users")
+    print(user)
+    current_user = {
+        'username': user[1],
+        'ownProjectId': user[4],
+        'associatedProjects': user[5],
+    }
+
+    return current_user, 200
 
