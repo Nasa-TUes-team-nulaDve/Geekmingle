@@ -50,7 +50,7 @@ const Register = () => {
       };
 
       // Replace 'YOUR_API_URL' with the actual API endpoint from your .env file
-      const response = await fetch(process.env.REACT_APP_API_URL + '/login', {
+      const response = await fetch(process.env.REACT_APP_API_URL + '/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
