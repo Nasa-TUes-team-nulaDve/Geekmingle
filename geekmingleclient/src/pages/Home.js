@@ -1,53 +1,72 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import ProjectCard from "../Components/ProjectCard";
 
-import Navbar from '../Components/Navbar.js';
+import "./Home.css";
 
-import './Home.css'; // Import the CSS file
-
-import { useUser } from '../Contexts/UserContext';
-import { jwtRequest } from '../utils/JWTRequest';
 function Home() {
-
-  const { user, setUser, logout } = useUser();
-
-
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    const getUserData = async () => {
-      const userData = await jwtRequest('auth/me', 'GET', null, logout);
-
-      setUser(userData);
-
-      // setUser({
-      //   username: 'Petar',
-      //   ownProjectId: null,
-      //   associatedProjects: [],
-      // })
-    }
-    // // Check if the user has a token in local storage
-    const token = localStorage.getItem('jwtToken');
-    if (!token) {
-      // Redirect to the login page if no token is found
-      setUser({
-        username: '',
-        ownProjectId: null,
-        associatedProjects: [],
-      })
-    } else {
-      getUserData();
-    }
-    // getUserData();
+    // Fetch projects when the component mounts
+    // fetch(`${process.env.REACT_APP_SERVER_URL}/project/getall`)
+    //   .then((response) => response.json())
+    //   .then((data) => setProjects(data))
+    //   .catch((error) => console.error("Error fetching projects: ", error));
+    setProjects([
+      {
+        "description": "furch2ilo",
+        "id": 11,
+        "members": null,
+        "name": "penis1",
+        "owner": "petur",
+        "skills": ["co2ding"]
+      }, {
+        "description": "furch2ilo",
+        "id": 12,
+        "members": null,
+        "name": "penis1",
+        "owner": "petur",
+        "skills": ["co2ding"]
+      }, {
+        "description": "furch2ilo",
+        "id": 13,
+        "members": null,
+        "name": "penis1",
+        "owner": "petur",
+        "skills": ["co2ding"]
+      }, {
+        "description": "furch2ilo",
+        "id": 14,
+        "members": null,
+        "name": "penis1",
+        "owner": "petur",
+        "skills": ["co2ding"]
+      }, {
+        "description": "furch2ilo",
+        "id": 15,
+        "members": null,
+        "name": "penis1",
+        "owner": "petur",
+        "skills": ["co2ding"]
+      }, {
+        "description": "furch2ilo",
+        "id": 16,
+        "members": ["Goro", "Radi"],
+        "name": "penis1",
+        "owner": "petur",
+        "skills": ["co2ding", "furfurfur"]
+      }
+    ])
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <Navbar {...{ "user": user, "logout": logout }} />
-        <div className="content">
-          <h1>Home</h1>
-          <p>Welcome to Geek Mingle!</p>
-        </div>
-      </header>
+    <div className="home">
+      <h1>All Projects</h1>
+      <div className="project-list">
+        {projects.map((project) => (
+          <ProjectCard key={project.id} project={project} />
+        ))}
+      </div>
     </div>
   );
 }

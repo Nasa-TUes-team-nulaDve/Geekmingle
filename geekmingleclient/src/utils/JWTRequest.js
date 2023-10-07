@@ -25,12 +25,12 @@ export const jwtRequest = async (endpoint, method = 'GET', data = null, logOutFu
         console.log(response);
 
         if (!response.ok) {
-            // logOutFunction();
+            logOutFunction();
         }
 
         return await response.json();
     } catch (error) {
-        // logOutFunction();
+        logOutFunction();
         throw error;
     }
 };
