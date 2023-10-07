@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 function App() {
   useEffect(() => {
     // Check if the user has a token in local storage
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('jwtToken');
 
     if (!token) {
       // Redirect to the login page if no token is found

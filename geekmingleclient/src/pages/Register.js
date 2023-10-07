@@ -81,12 +81,10 @@ const Register = () => {
       if (response.ok) {
         // Registration successful, now perform the login
         const data = await response.json();
-        const accessToken = data.accessToken;
-        const refreshToken = data.refreshToken;
+        const jwtToken = data.token;
 
         // Store tokens securely (e.g., in localStorage)
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('jwtToken', jwtToken);
         console.log('Registration Successful', data);
       } else {
         // Handle registration failure

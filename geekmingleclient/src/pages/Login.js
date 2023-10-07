@@ -42,11 +42,9 @@ const Login = () => {
             if (response.ok) {
                 const data = await response.json();
                 // Assuming your server sends back access and refresh tokens
-                const accessToken = data.accessToken;
-                const refreshToken = data.refreshToken;
+                const jwtToken = data.token;
                 // Store tokens securely (e.g., in localStorage)
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', refreshToken);
+                localStorage.setItem('jwtToken', jwtToken);
                 console.log('Login Successful', data);
             } else {
                 setLoginError('Invalid username or password');
