@@ -22,15 +22,15 @@ function Navbar({ user, logout }) {
           <>
             <button onClick={logout}>Logout</button>
             <h1>Logged in as {user.username}</h1>
+            <img
+              src="your-profile-image.jpg"
+              alt="Your Profile"
+              className="profile-image"
+            />
           </>
         ) : (
           <button onClick={() => { window.location.href = '/login' }}>Login</button>
         )}
-        <img
-          src="your-profile-image.jpg"
-          alt="Your Profile"
-          className="profile-image"
-        />
       </div>
     </div>
   );
