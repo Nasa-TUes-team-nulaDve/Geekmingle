@@ -22,13 +22,15 @@ export const jwtRequest = async (endpoint, method = 'GET', data = null, logOutFu
     try {
         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}${endpoint}`, requestOptions);
 
+        console.log(response);
+
         if (!response.ok) {
-            logOutFunction();
+            // logOutFunction();
         }
 
         return await response.json();
     } catch (error) {
-        logOutFunction();
+        // logOutFunction();
         throw error;
     }
 };
