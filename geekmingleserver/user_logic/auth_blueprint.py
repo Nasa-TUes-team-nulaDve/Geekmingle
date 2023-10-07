@@ -34,10 +34,12 @@ def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = request.headers.get('Authorization')
-
+        token = token.split(" ")[1] if token.startswith("Bearer ") else token
         if not token:
             return jsonify(message='Token is missing'), 401
 
+        print("token")
+        print(token)
         try:
             data = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
             current_user = data['username']
@@ -58,6 +60,20 @@ def register():
 
     if username is None or password is None or email is None:
         return jsonify(message='Invalid username or password'), 401
+
+    # Check if user already exists
+    cur.execute("SELECT * FROM users WHERE username = %s", (username,))
+    user = cur.fetchone()
+
+    if user:
+        return jsonify(message='User already exists'), 401
+    # Check if email already exists
+    cur.execute("SELECT * FROM users WHERE email = %s", (email,))
+    mail = cur.fetchone()
+
+    if mail:
+        return jsonify(message='Email already exists'), 401
+
 
     # Hash the password
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
