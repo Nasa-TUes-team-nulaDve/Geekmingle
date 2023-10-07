@@ -4,7 +4,7 @@ export const jwtRequest = async (endpoint, method = 'GET', data = null, logOutFu
 
     const token = localStorage.getItem('jwtToken');
 
-    if (token) {
+    if (!token) {
         throw new Error('User is not authenticated.');
     }
 
@@ -23,12 +23,12 @@ export const jwtRequest = async (endpoint, method = 'GET', data = null, logOutFu
         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}${endpoint}`, requestOptions);
 
         if (!response.ok) {
-            // logOutFunction();
+            logOutFunction();
         }
 
         return await response.json();
     } catch (error) {
-        // logOutFunction();
+        logOutFunction();
         throw error;
     }
 };
