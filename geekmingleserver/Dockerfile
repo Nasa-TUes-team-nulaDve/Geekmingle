@@ -7,8 +7,12 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
+#Update pip
+RUN pip install --upgrade pip
+
 # Install the dependencies
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
+RUN pip install -r requirements.txt
+
 
 # Expose the port the app runs on
 EXPOSE 5000
