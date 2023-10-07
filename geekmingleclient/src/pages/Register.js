@@ -41,48 +41,6 @@ const Register = () => {
     }
   };
 
-  const handleRegistrationSuccess = async () => {
-    try {
-      // Create a payload with the user data to send to the server for login
-      const loginPayload = {
-        username: formData.username,
-        password: formData.password,
-      };
-
-      // Replace 'YOUR_API_URL' with the actual API endpoint from your .env file
-      const response = await fetch(process.env.REACT_APP_SERVER_URL + '/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginPayload),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        // Assuming your server sends back access and refresh tokens
-        const accessToken = data.accessToken;
-        const refreshToken = data.refreshToken;
-        // Store tokens securely (e.g., in localStorage)
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        console.log('Registration and Login Successful', data);
-      } else {
-        // Handle login failure
-        console.error('Login Failed');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-
-    // Reset the form fields after successful registration and login
-    setFormData({
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,7 +66,7 @@ const Register = () => {
     };
 
     try {
-      // Replace 'YOUR_API_URL' with the actual API endpoint from your .env file
+      // Replace 'REACT_APP_SERVER_URL' with the actual API endpoint from your .env file
       const response = await fetch(
         process.env.REACT_APP_SERVER_URL + '/auth/register',
         {
@@ -122,7 +80,14 @@ const Register = () => {
 
       if (response.ok) {
         // Registration successful, now perform the login
-        await handleRegistrationSuccess();
+        const data = await response.json();
+        const accessToken = data.accessToken;
+        const refreshToken = data.refreshToken;
+
+        // Store tokens securely (e.g., in localStorage)
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+        console.log('Registration Successful', data);
       } else {
         // Handle registration failure
         console.error('Registration Failed');
