@@ -31,6 +31,9 @@ export const jwtRequest = async (endpoint, method = 'GET', data = null, logOutFu
         return await response.json();
     } catch (error) {
         logOutFunction();
+        alert("Error: " + error + "\n\nPlease log in again.")
+
+
         throw error;
     }
 };

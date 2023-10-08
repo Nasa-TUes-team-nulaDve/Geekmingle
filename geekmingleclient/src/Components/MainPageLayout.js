@@ -37,12 +37,13 @@ function Layout() {
 				associatedProjects: [],
 			});
 		} else {
-			// getUserData();
-			setUser({
-				username: "Petar",
-				ownProjectId: null,
-				associatedProjects: [],
-			});
+			getUserData();
+
+			// setUser({
+			// 	username: "Petar",
+			// 	ownProjectId: null,
+			// 	associatedProjects: [],
+			// });
 		}
 		// getUserData();
 	}, []);

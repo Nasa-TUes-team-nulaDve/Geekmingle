@@ -78,7 +78,7 @@ const Register = () => {
     try {
       // Replace 'REACT_APP_SERVER_URL' with the actual API endpoint from your .env file
       const response = await fetch(
-        process.env.REACT_APP_SERVER_URL + '/auth/register',
+        process.env.REACT_APP_SERVER_URL + 'auth/register',
         {
           method: 'POST',
           headers: {

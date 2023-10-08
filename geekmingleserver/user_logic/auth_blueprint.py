@@ -6,11 +6,13 @@ import jwt
 import datetime
 from functools import wraps
 import json
+from flask_cors import CORS
 
 auth_blueprint = Blueprint('auth', __name__)
 
 config = ConfigParser()
 config.read('config.ini')
+CORS(auth_blueprint)
 
 db_host = config.get('database', 'host')
 db_port = config.get('database', 'port')

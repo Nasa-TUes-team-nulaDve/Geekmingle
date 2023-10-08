@@ -34,7 +34,7 @@ const CreateProject = () => {
 
 			// Replace 'YOUR_API_URL' with the actual API endpoint from your .env file
 			const response = await fetch(
-				process.env.REACT_APP_SERVER_URL + "/project/create",
+				process.env.REACT_APP_SERVER_URL + "project/create",
 				{
 					method: "POST",
 					headers: {

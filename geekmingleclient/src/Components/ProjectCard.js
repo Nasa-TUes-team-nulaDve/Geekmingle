@@ -7,7 +7,10 @@ function ProjectCard({ project }) {
 	const navigate = useNavigate();
 
 	const { description, id, members, name, owner, skills } = project;
-	const sortedSkills = skills.sort().join(", ");
+	let sortedSkills = "";
+	if (skills) {
+		sortedSkills = skills.sort().join(", ");
+	}
 
 	// State to keep track of which member's tooltip is being hovered
 	const [hoveredMember, setHoveredMember] = useState(null);
@@ -41,8 +44,8 @@ function ProjectCard({ project }) {
 
 	// Extract the first letter of each member's name and add the owner to the list
 	const memberInitials = members
-		? [owner, ...members].map((member) => member.charAt(0).toUpperCase())
-		: [owner.charAt(0).toUpperCase()];
+		? [owner, ...members].map((member) => member[0].toUpperCase())
+		: [owner[0].toUpperCase()];
 
 	// Generate colors based on member initials
 	const memberColors = memberInitials.map((initial, index) =>
@@ -68,21 +71,21 @@ function ProjectCard({ project }) {
 							<div className="member-tooltip">
 								{/* {members ? members[index] : owner} */}
 								{index === 0
-									? owner.charAt(0).toUpperCase() +
+									? owner[0].toUpperCase() +
 									  owner.slice(1)
 									: members[index - 1]
-											.charAt(0)
+											[0]
 											.toUpperCase() +
 									  members[index - 1].slice(1)}
 							</div>
 						) : (
-							<>{initial}</>
+							<>{initial[0]}</>
 						)}
 					</div>
 				))}
 			</div>
 			<div className="skills-list">
-				<strong>Skills:</strong> {sortedSkills}
+				<strong>Category:</strong> {sortedSkills}
 			</div>
 			<button
 				className="view-project"

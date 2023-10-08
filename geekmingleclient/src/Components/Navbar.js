@@ -67,11 +67,7 @@ function Navbar({ user, logout }) {
 						<h1 className="username-text">
 							Logged in as {user.username}
 						</h1>
-						<img
-							src="your-profile-image.jpg"
-							alt="Your Profile"
-							className="profile-image"
-						/>
+
 					</>
 				) : (
 					<button

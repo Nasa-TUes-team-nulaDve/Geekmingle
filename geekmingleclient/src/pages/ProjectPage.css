@@ -116,6 +116,9 @@ button[type="submit"] {
 .member-boxes {
     display: flex;
     flex-wrap: wrap;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .member-box {
@@ -123,6 +126,7 @@ button[type="submit"] {
     align-items: center;
     margin-right: 10px;
     margin-bottom: 10px;
+    flex-basis: 1em;
 }
 
 /* Member Circle */
@@ -134,4 +138,13 @@ button[type="submit"] {
     align-items: center;
     justify-content: center;
     font-weight: bold;
+}
+.join-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
 }

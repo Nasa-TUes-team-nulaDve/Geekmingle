@@ -42,7 +42,7 @@ const Login = () => {
 
 			// Replace 'YOUR_API_URL' with the actual API endpoint from your .env file
 			const response = await fetch(
-				process.env.REACT_APP_SERVER_URL + "/auth/login",
+				process.env.REACT_APP_SERVER_URL + "auth/login",
 				{
 					method: "POST",
 					headers: {
@@ -57,6 +57,7 @@ const Login = () => {
 				// Assuming your server sends back access and refresh tokens
 				const jwtToken = data.token;
 				// Store tokens securely (e.g., in localStorage)
+
 				localStorage.setItem("jwtToken", jwtToken);
 				navigate("/");
 			} else {

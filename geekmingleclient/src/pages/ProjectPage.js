@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import {jwtRequest}	 from "../utils/JWTRequest";
 import "./ProjectPage.css";
+import { useUser } from "../Contexts/UserContext";
 
 function ProjectPage() {
 	const { id } = useParams();
-
+	const {  logout } = useUser();
 	const [projectData, setProjectData] = useState(null);
+	const [refetch, setRefetch] = useState(false);
 
 	useEffect(() => {
-		// fetch(`${process.env.REACT_APP_SERVER_URL}/project/${id}`)
-		//     .then((response) => response.json())
-		//     .then((data) => setProjectData(data))
-		//     .catch((error) => console.error("Error fetching project data:", error));
-		const projects = localStorage.getItem("projects");
-		const projectData = JSON.parse(projects);
-		const project = projectData.find((project) => project.id == id);
-		setProjectData(project);
-	}, [id]);
+		fetch(`${process.env.REACT_APP_SERVER_URL}project/get/${id}`)
+		    .then((response) => response.json())
+		    .then((data) => setProjectData(data))
+		    .catch((error) => console.error("Error fetching project data:", error));
+		// const projects = localStorage.getItem("projects");
+		// const projectData = JSON.parse(projects);
+		// const project = projectData.find((project) => project.id == id);
+		// setProjectData(project);
+	}, [id, refetch]);
 
 	if (!projectData) {
 		return <div>Loading...</div>;
@@ -33,7 +35,7 @@ function ProjectPage() {
 	function stringToColor(str) {
 		let hash = 0;
 		for (let i = 0; i < str.length; i++) {
-			hash = str.charCodeAt(i) + ((hash << 5) - hash);
+			hash = str[i].charCode + ((hash << 5) - hash);
 		}
 
 		const color = Math.floor(
@@ -44,7 +46,27 @@ function ProjectPage() {
 
 	// Ensure that the owner is at index 0 in the members array
 	const updatedMembers = [owner, ...members];
+	const attendProject = async (e) => {
+		e.preventDefault();
 
+		try {
+			const payload = {
+				id
+			};
+
+			// Replace 'YOUR_API_URL' with the actual API endpoint from your .env file
+			const response = await jwtRequest(process.env.REACT_APP_SERVER_URL + "project/attend", "POST", payload, logout);
+
+			if (response.ok) {
+				const data = await response.json();
+				setRefetch(!refetch);
+			}
+		} catch (error) {
+			console.error("Error:", error);
+		}
+
+
+	}
 	return (
 		<div className="project-page">
 			<div className="project-info">
@@ -54,16 +76,17 @@ function ProjectPage() {
 							className="team-circle"
 							style={{ backgroundColor: stringToColor(name) }}
 						>
-							{name.charAt(0).toUpperCase()}
+							{name[0].toUpperCase()}
 						</div>
 						{name}
 					</h1>
 					<div className="project-description">{description}</div>
+					<button className="join-button" onClick={attendProject}>Join Project</button>
 				</div>
 				<div className="skills-list">
-					<h2>Skills:</h2>
+					<h2>Category:</h2>
 					<div className="skill-boxes">
-						{skills.map((skill, index) => (
+						{!skills ? <div>No Category</div> : skills.map((skill, index) => (
 							<div
 								key={index}
 								className="skill-box"
@@ -105,7 +128,7 @@ function ProjectPage() {
 				<div className="members-list">
 					<h2>Members:</h2>
 					<div className="member-boxes">
-						{updatedMembers.map((member, index) => (
+						{updatedMembers?.map((member, index) => (
 							<div key={index} className="member-box">
 								<div
 									className="member-circle-projectpage"
@@ -113,7 +136,7 @@ function ProjectPage() {
 										backgroundColor: stringToColor(member),
 									}}
 								>
-									{member.charAt(0).toUpperCase()}
+									{updatedMembers[index][0][0].toUpperCase()}
 								</div>
 								<div className="member-name">{member}</div>
 							</div>
