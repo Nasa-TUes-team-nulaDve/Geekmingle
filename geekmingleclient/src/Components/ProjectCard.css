@@ -74,4 +74,5 @@
 .view-project:hover {
 	background-color: #0074d9;
 	color: white;
+	cursor: pointer;
 }
